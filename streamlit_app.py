@@ -31,7 +31,7 @@ if prompt := st.chat_input("What is up?"):
         message_placeholder = st.empty()
         full_response = ""
 
-        responses = openai.api.Completions.create(
+        responses = openai.Completion.create(
             engine="gpt-3.5-turbo",
             prompt=[
                 {"role": m["role"], "content": m["content"]}
