@@ -2,7 +2,6 @@ import openai
 from openai import OpenAI
 import streamlit as st
 
-ASSISTANT_ROLE = "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"
 
 with st.sidebar:
     st.title('🥼💬 Clinical Biologist for mNGS analysis')
@@ -29,7 +28,7 @@ if prompt := st.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
-    with st.chat_message("assistant"):
+    with st.chat_message("Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"):
         message_placeholder = st.empty()
         full_response = ""
         for response in client.chat.completions.create(
@@ -40,4 +39,4 @@ if prompt := st.chat_input("What is up?"):
                 full_response += response.choices[0].delta.content
                 message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": ASSISTANT_ROLE, "content": full_response})
+    st.session_state.messages.append({"role": "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence", "content": full_response})
