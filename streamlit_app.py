@@ -1,7 +1,8 @@
 # Code refactored from https://docs.streamlit.io/knowledge-base/tutorials/build-conversational-apps
-
 import openai
 import streamlit as st
+
+PRICE_PER_THOUSAND_TOKENS = 0.20
 
 with st.sidebar:
     st.title('🤖💬 OpenAI Chatbot')
@@ -17,6 +18,7 @@ with st.sidebar:
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+    st.session_state.total_tokens = 0
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -35,5 +37,13 @@ if prompt := st.chat_input("What is up?"):
                       for m in st.session_state.messages], stream=True):
             full_response += response.choices[0].delta.get("content", "")
             message_placeholder.markdown(full_response + "▌")
+            st.session_state.total_tokens += response.usage['total_tokens']
         message_placeholder.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+with st.sidebar:
+    tokens_used = st.session_state.total_tokens
+    cost = tokens_used / 1000 * PRICE_PER_THOUSAND_TOKENS
+    st.subheader("Usage Information")
+    st.write(f"Tokens used: {tokens_used}")
+    st.write(f"Cost: ${cost:.2f}")
