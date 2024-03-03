@@ -1,4 +1,5 @@
 import openai
+from openai import OpenAI
 import streamlit as st
 
 with st.sidebar:
@@ -13,8 +14,10 @@ with st.sidebar:
         else:
             st.success('Proceed to entering your prompt message!', icon='👉')
 
-client = openai.Client()
+client = OpenAI(api_key=openai.api_key)
 
+client = openai.ChatCompletion.create(
+    
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -31,10 +34,12 @@ if prompt := st.chat_input("What is up?"):
         full_response = ""
         for response in client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": m["role"], "content": m["content"]}
+            messages=[{"role": m["role"], "content": 
+                       "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"}
                       for m in st.session_state.messages], stream=True):
             if response.choices[0].delta.content is not None:
                 full_response += response.choices[0].delta.content
                 message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+
