@@ -30,7 +30,7 @@ if prompt := st.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
-    with st.chat_message("system"):
+    with st.chat_message("assistant"):
         message_placeholder = st.empty()
         full_response = ""
         for response in client.chat.completions.create(
