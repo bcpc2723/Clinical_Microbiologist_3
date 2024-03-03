@@ -2,8 +2,6 @@ import openai
 from openai import OpenAI
 import streamlit as st
 
-#ASSISTANT_ROLE = "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"
-
 with st.sidebar:
     st.title('🥼💬 Clinical Biologist for mNGS analysis')
     if 'OPENAI_API_KEY' in st.secrets:
