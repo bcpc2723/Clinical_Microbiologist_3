@@ -31,9 +31,9 @@ if prompt := st.chat_input("What is up?"):
         message_placeholder = st.empty()
         full_response = ""
 
-        responses = openai.Completion.create(
-            engine="gpt-3.5-turbo",
-            prompt=[
+        responses = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
                 {"role": m["role"], "content": m["content"]}
                 for m in st.session_state.messages
             ],
@@ -56,3 +56,5 @@ with st.sidebar:
     st.subheader("Usage Information")
     st.write(f"Tokens used: {tokens_used}")
     st.write(f"Cost: ${cost:.2f}")
+
+
