@@ -15,7 +15,7 @@ with st.sidebar:
             st.success('Proceed to entering your prompt message!', icon='👉')
 
 client = OpenAI(api_key=openai.api_key)
-ROLE = "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"
+role = "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -36,7 +36,7 @@ if prompt := st.chat_input("What is up?"):
         full_response = ""
         for response in client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": m[ROLE], "content": m["content"]}
+            messages=[{"role": m["role"], "content": m["content"]}
                       for m in st.session_state.messages], stream=True):
             if response.choices[0].delta.content is not None:
                 full_response += response.choices[0].delta.content
