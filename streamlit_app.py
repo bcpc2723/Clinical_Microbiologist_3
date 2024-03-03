@@ -7,13 +7,15 @@ with st.sidebar:
     st.title('🥼🔎 OpenAI Chatbot')
     if 'OPENAI_API_KEY' in st.secrets:
         st.success('API key already provided!', icon='✅')
-        openai.api_key = st.secrets['OPENAI_API_KEY']
+        api_key = st.secrets['OPENAI_API_KEY']
     else:
-        openai.api_key = st.text_input('Enter OpenAI API token:', type='password')
-        if not (openai.api_key.startswith('sk-') and len(openai.api_key) == 51):
+        api_key = st.text_input('Enter OpenAI API token:', type='password')
+        if not (api_key.startswith('sk-') and len(api_key) == 51):
             st.warning('Please enter your credentials!', icon='⚠️')
         else:
             st.success('Proceed to entering your prompt message!', icon='👉')
+
+client = openai.Client(api_key)
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -31,7 +33,7 @@ if prompt := st.chat_input("What is up?"):
         message_placeholder = st.empty()
         full_response = ""
 
-        response = openai.Completion.create(
+        response = client.chat.completions.create(
             engine="gpt-3.5-turbo",
             prompt="\n".join([f'{m["role"]}: {m["content"]}' for m in st.session_state.messages]) + "\nassistant:",
             max_tokens=150,
