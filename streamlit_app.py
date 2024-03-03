@@ -1,7 +1,5 @@
 import openai
-from openai import OpenAI
 import streamlit as st
-
 
 with st.sidebar:
     st.title('🥼💬 Clinical Biologist for mNGS analysis')
@@ -15,7 +13,12 @@ with st.sidebar:
         else:
             st.success('Proceed to entering your prompt message!', icon='👉')
 
-client = OpenAI(api_key=openai.api_key)
+client = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "Clinical doctor", "content": "Hello, how can I assist you today?"}],
+    request_timeout=60,
+    temperature=0.5
+)
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -28,15 +31,12 @@ if prompt := st.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
-    with st.chat_message("Clinical Biologist"):
+    with st.chat_message("assistant"):
         message_placeholder = st.empty()
         full_response = ""
-        for response in client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": m["role"], "content": m["content"]}
-                      for m in st.session_state.messages], stream=True):
+        for response in client:
             if response.choices[0].delta.content is not None:
                 full_response += response.choices[0].delta.content
                 message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": "Clinical Biologist", "content": full_response})
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
