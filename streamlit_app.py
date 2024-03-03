@@ -35,7 +35,7 @@ if prompt := st.chat_input("What is up?"):
         full_response = ""
         for response in client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "system", "content": "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence."}
+            messages=[{"role": "assistant", "content": "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence."}
             if response.choices[0].delta.content is not None:
                 full_response += response.choices[0].delta.content
                 message_placeholder.markdown(full_response + "▌")
