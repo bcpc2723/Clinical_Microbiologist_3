@@ -1,7 +1,6 @@
 import openai
 from openai import OpenAI
 import streamlit as st
-from tiktoken import Tokenizer
 from tiktoken.tokenizer import Tokenizer
 
 USD_TO_HKD = 7.85  # Conversion rate from USD to HKD, you can update this value based on the current exchange rate
