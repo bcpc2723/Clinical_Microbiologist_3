@@ -16,12 +16,11 @@ with st.sidebar:
 
 client = OpenAI(api_key=openai.api_key)
 
-    
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
+    with st.chat_message(message["role"]: "system", "content": "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence."):
         st.markdown(message["content"])
 
 if prompt := st.chat_input("What is up?"):
@@ -30,13 +29,13 @@ if prompt := st.chat_input("What is up?"):
         st.markdown(prompt)
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
+        full_response = ""
         for response in client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": m["role"], "content":m["content"]}
+            messages=[{"role": m["role"], "content": m["content"]}
                       for m in st.session_state.messages], stream=True):
             if response.choices[0].delta.content is not None:
                 full_response += response.choices[0].delta.content
                 message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": "assistant", "content": "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"})
-
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
