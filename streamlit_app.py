@@ -38,4 +38,4 @@ if prompt := st.chat_input("What is up?"):
                 full_response += response.choices[0].delta.content
                 message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+    st.session_state.messages.append({"role": "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence", "content": full_response})
