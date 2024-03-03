@@ -2,6 +2,8 @@ import openai
 from openai import OpenAI
 import streamlit as st
 
+ASSISTANT_ROLE = "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"
+
 with st.sidebar:
     st.title('🥼💬 Clinical Biologist for mNGS analysis')
     if 'OPENAI_API_KEY' in st.secrets:
@@ -29,7 +31,7 @@ if prompt := st.chat_input("What is up?"):
         st.markdown(prompt)
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        full_response = "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"
+        full_response = ""
         for response in client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": m["role"], "content": m["content"]}
@@ -38,4 +40,4 @@ if prompt := st.chat_input("What is up?"):
                 full_response += response.choices[0].delta.content
                 message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+    st.session_state.messages.append({"role": ASSISTANT_ROLE, "content": full_response})
