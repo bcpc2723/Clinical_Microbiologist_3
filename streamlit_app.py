@@ -34,8 +34,7 @@ if prompt := st.chat_input("What is up?"):
         full_response = ""
         for response in client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": m["role"], "content": 
-                       "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"}
+            messages=[{"role": m["role"], "content": m["Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"]}
                       for m in st.session_state.messages], stream=True):
             if response.choices[0].delta.content is not None:
                 full_response += response.choices[0].delta.content
