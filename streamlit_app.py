@@ -22,7 +22,7 @@ if "messages" not in st.session_state:
 previous_messages = []
 
 for message in previous_messages + st.session_state.messages:
-    with st.chat_message(message["role"]):
+    with st.chat_message(message["Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"]):
         st.markdown(message["content"])
 
 if prompt := st.chat_input("What is up?"):
