@@ -1,21 +1,6 @@
 import openai
 from openai import OpenAI
 import streamlit as st
-from tiktoken.tokenizer import Tokenizer
-
-USD_TO_HKD = 7.85  # Conversion rate from USD to HKD, you can update this value based on the current exchange rate
-
-# Function to count tokens in a text
-def count_tokens(text):
-    tokenizer = Tokenizer()
-    tokens = tokenizer.tokenize(text)
-    return len(tokens)
-
-# Function to calculate the cost in USD and HKD
-def calculate_cost(token_count, tokens_per_dollar=4000, usd_to_hkd=USD_TO_HKD):
-    cost_usd = token_count / tokens_per_dollar
-    cost_hkd = cost_usd * usd_to_hkd
-    return cost_usd, cost_hkd
 
 with st.sidebar:
     st.title('🤖💬 OpenAI Chatbot')
@@ -35,17 +20,8 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 for message in st.session_state.messages:
-    tokens = count_tokens(message["content"])
-    cost_usd, cost_hkd = calculate_cost(tokens)
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
-        st.write(f"Tokens: {tokens}, Cost: ${cost_usd:.4f} USD / ${cost_hkd:.4f} HKD")
-
-total_tokens = sum(count_tokens(m["content"]) for m in st.session_state.messages)
-total_cost_usd, total_cost_hkd = calculate_cost(total_tokens)
-with st.sidebar:
-    st.write(f"Total tokens used: {total_tokens}")
-    st.write(f"Total cost: ${total_cost_usd:.4f} USD / ${total_cost_hkd:.4f} HKD")
 
 if prompt := st.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
