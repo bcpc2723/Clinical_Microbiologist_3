@@ -23,7 +23,7 @@ if "messages" not in st.session_state:
 previous_messages = []
 
 for message in previous_messages + st.session_state.messages:
-    with st.chat_message(message[ROLE]):
+    with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
 if prompt := st.chat_input("What is up?"):
