@@ -38,6 +38,3 @@ if prompt := st.chat_input("What is up?"):
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": full_response})
-</code></div></pre>
-
-This change replaces the `response.choices[0].text` attribute with the `response.choices[0].delta.content` attribute, which should resolve the AttributeError and allow the code to run without issues.
