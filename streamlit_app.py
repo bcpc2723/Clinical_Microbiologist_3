@@ -34,7 +34,10 @@ if prompt := st.chat_input("What is up?"):
             model="gpt-3.5-turbo",
             messages=[{"role": m["role"], "content": m["content"]}
                       for m in st.session_state.messages], stream=True):
-            full_response += response.choices[0].text
+            full_response += response.choices[0].delta.content
             message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+</code></div></pre>
+
+This change replaces the `response.choices[0].text` attribute with the `response.choices[0].delta.content` attribute, which should resolve the AttributeError and allow the code to run without issues.
