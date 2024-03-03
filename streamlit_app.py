@@ -29,7 +29,7 @@ if prompt := st.chat_input("What is up?"):
         st.markdown(prompt)
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        full_response = ""
+        full_response = "Clinical Biologist specified in Viral genome analysis, Elucidation of the pathogenesis and Population virus seroprevalence"
         for response in client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": m["role"], "content": m["content"]}
