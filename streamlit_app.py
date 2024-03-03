@@ -29,7 +29,7 @@ if prompt := st.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
-    with st.chat_message(ASSISTANT_ROLE):
+    with st.chat_message("assistant"):
         message_placeholder = st.empty()
         full_response = ""
         for response in client.chat.completions.create(
@@ -40,4 +40,4 @@ if prompt := st.chat_input("What is up?"):
                 full_response += response.choices[0].delta.content
                 message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": ASSISTANT_ROLE, "content": full_response})
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
