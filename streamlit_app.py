@@ -1,11 +1,10 @@
-# Code refactored from https://docs.streamlit.io/knowledge-base/tutorials/build-conversational-apps
 import openai
 import streamlit as st
 
 PRICE_PER_THOUSAND_TOKENS = 0.20
 
 with st.sidebar:
-    st.title('🤖💬 OpenAI Chatbot')
+    st.title('🥼🔎 OpenAI Chatbot')
     if 'OPENAI_API_KEY' in st.secrets:
         st.success('API key already provided!', icon='✅')
         openai.api_key = st.secrets['OPENAI_API_KEY']
@@ -31,11 +30,18 @@ if prompt := st.chat_input("What is up?"):
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         full_response = ""
-        for response in openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": m["role"], "content": m["content"]}
-                      for m in st.session_state.messages], stream=True):
-            full_response += response.choices[0].delta.get("content", "")
+        for response in openai.Completion.create(
+            engine="gpt-3.5-turbo",
+            prompt=[
+                {"role": m["role"], "content": m["content"]}
+                for m in st.session_state.messages
+            ],
+            max_tokens=150,
+            n=1,
+            stop=None,
+            temperature=0.5,
+        )["choices"]:
+            full_response += response["text"]
             message_placeholder.markdown(full_response + "▌")
             st.session_state.total_tokens += response.usage['total_tokens']
         message_placeholder.markdown(full_response)
