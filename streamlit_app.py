@@ -35,7 +35,8 @@ if prompt := st.chat_input("What is up?"):
         full_response = ""
         for response in client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "system", "content": ""}):
+            messages=[{"role": m["role"], "content": m["content"]}
+                      for m in st.session_state.messages], stream=True):
             if response.choices[0].delta.content is not None:
                 full_response += response.choices[0].delta.content
                 message_placeholder.markdown(full_response + "▌")
